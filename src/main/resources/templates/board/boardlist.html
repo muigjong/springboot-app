@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+
+    <title>게시판 문의 목록</title>
+
+</head>
+
+<style>
+
+    body {
+                   font-family: 'Nanum Gothic', sans-serif;
+                   margin: 0;
+                   padding: 0;
+                   background-color: #f5f5f5;
+                   color: #333;
+               }
+
+               h1 {
+                  margin : 20px auto;
+               }
+
+
+   a {
+       text-decoration: none;
+       color: #007ACC;
+   }
+
+
+    .board_list {
+        max-width: 500px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #c3c3c3;
+    }
+
+    th {
+        background-color: #f0768b;
+        color: white;
+    }
+
+    th a, td a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    th a:hover, td a:hover {
+        color: #0056b3;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+    }
+
+    .pagination {
+        margin-top: 20px;
+    }
+
+    .search-form {
+        margin-top: 20px;
+    }
+
+    .search-form input {
+        padding: 8px;
+        width: 200px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .search-form button {
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .search-form button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+
+<body>
+
+<th:block th:include="layouts/header"></th:block>
+
+<div class="board_list" style="text-align: center;">
+    <h1>게시판 문의 목록</h1>
+    <h4>로그인하신 이후에 게시판 문의를 작성할 수 있습니다.</h4>
+    <h4>자신의 게시판 문의만 보고 수정하거나 삭제할 수 있습니다.</h4>
+    <h4>제목을 클릭하시면 일대일 문의 보기, 수정, 삭제 가능합니다.</h4>
+    <br>
+    <div style="margin-bottom: 20px;">
+        <a href="/board/write" class="btn">문의하기</a>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일자</th>
+        </tr>
+        </thead>
+        <tbody id="boardList">
+        <tr th:each="board : ${boards}" th:if="${board != null}">
+            <td th:text="${board.boardId}">글번호</td>
+            <td>
+                <a th:href="@{/board/view(boardId=${board.boardId})}" th:text="${board.boardTitle}">제목</a>
+            </td>
+            <td th:text="${board.user != null ? board.user.nickname : '익명'}"></td>
+            <td th:text="${#dates.format(board.boardDate, 'yyyy-MM-dd HH:mm')}">글등록일</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <a th:href="@{/board/list(page=0)}"> << </a>
+        <th:block th:each="page : ${#numbers.sequence(startPage, lastPage)}">
+            <a th:if="${page > 0}"
+            th:href="@{/board/list(page=${page - 1}, searchKeyword=${param.searchKeyword})}"
+            th:text="${page}"></a>
+<!--            <strong th:if="${page == firstPage}" th:text="${page}" style="color: red;"></strong>-->
+        </th:block>
+        <a th:href="@{/board/list(page=${list.TotalPages} - 1)}"> >> </a>
+    </div>
+
+    <form th:action="@{/board/list}" method="get" class="search-form">
+        <input type="text" name="searchKeyword" placeholder="제목 또는 닉네임 검색">
+        <button type="submit">검색</button>
+    </form>
+</div>
+</div>
+
+</body>
+
+</html>

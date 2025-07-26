@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+
+    <title>블록 게임</title>
+    <style>
+        /* 기본 스타일 설정 */
+        body {
+            background-color: black; /* 배경색을 검정으로 설정 */
+            color: white; /* 텍스트 색상을 흰색으로 설정 */
+            font-family: 'Nanum Gothic', sans-serif; /* 폰트 설정 */
+        }
+        canvas {
+             border: 1px solid white; /* 캔버스에 흰색 테두리 추가 */
+        }
+    </style>
+</head>
+<body>
+<th:block th:include="layouts/header"></th:block>
+
+<h1>블록 게임</h1>
+<canvas id="gameCanvas" width="600" height="800"></canvas> <!-- 게임 캔버스 생성 -->
+<script>
+    const canvas = document.getElementById('gameCanvas'); // 캔버스 요소 가져오기
+    const ctx = canvas.getContext('2d'); // 2D 그래픽 컨텍스트 가져오기
+
+    let blocks = []; // 블록 배열 초기화
+    let score = 0; // 점수 초기화
+    const paddleWidth = 100; // 패들 너비
+    const paddleHeight = 30; // 패들 높이
+    const ballSize = 20; // 공 크기
+    // 패들 시작 위치 설정
+    let paddleX = (canvas.width - paddleWidth) / 2;
+    // 공 시작 위치 설정
+    let ballX = canvas.width / 2;
+    let ballY = canvas.height - 50;
+    // 공 이동 방향 설정
+    let ballDX = 3;  //공의 수평 이동 속도
+    let ballDY = -3;  //공의 수직 이동 속도
+    // 키 입력 상태 변수
+    let rightPressed = false;
+    let leftPressed = false;
+
+    // 블록 클래스 정의
+    class Block {
+        constructor(color, x, y, text) {
+            this.color = color; // 블록 색상
+            this.rect = { x: x, y: y, width: 80, height: 30 }; // 블록 위치 및 크기
+            this.text = text; // 블록에 표시할 텍스트
+        }
+
+        draw() {
+            ctx.fillStyle = this.color; // 블록 색상 설정
+            ctx.fillRect(this.rect.x, this.rect.y, this.rect.width, this.rect.height); // 블록 그리기
+            ctx.fillStyle = 'white'; // 텍스트 색상 설정
+            ctx.fillText(this.text, this.rect.x + 10, this.rect.y + 20); // 텍스트 그리기
+        }
+    }
+
+    function init() {
+    // 게임 초기화 함수
+    startTime = Date.now(); // 게임 시작 시간을 기록
+    blocks = []; // 블록 배열 초기화
+    score = 0; // 점수 초기화
+    paddleX = (canvas.width - paddleWidth) / 2; // 패들 위치 초기화
+    ballX = canvas.width / 2; // 공 위치 초기화
+    ballY = canvas.height - 50; // 공 위치 초기화
+    ballDX = 2; // 공 이동 방향 초기화
+    ballDY = -2; // 공 이동 방향 초기화
+
+    const colors = ['#FF0000', '#FFA500', '#F2F200', '#008000', '#800080', '#0000FF']; // 블록 색상 배열
+    const words = ["불의", "추악", "탐욕", "악의", "시기",
+                   "살인", "분쟁", "사기", "악독", "비방",
+                   "미움", "능욕", "교만", "자랑", "불효",
+                   "우매", "배약", "무정", "남색", "동성애",
+                   "무자비", "욕설", "폭력", "복수", "욕심",
+                   "이기심", "자만", "불륜", "간음", "방탕"]; // 블록에 표시할 단어 배열
+
+    // 블록 생성
+    for (let i = 0; i < colors.length; i++) {
+        for (let j = 0; j < 5; j++) {
+            const text = words[i * 5 + j]; // 단어 선택
+            blocks.push(new Block(colors[i], j * 100 + 60, i * 50 + 80, text)); // 블록 위치 조정
+        }
+    }
+    // 키 이벤트 리스너 추가
+    document.addEventListener('keydown', keyDownHandler);
+    document.addEventListener('keyup', keyUpHandler);
+    // 게임 루프 시작
+    setInterval(gameLoop, 10);
+}
+
+    function keyDownHandler(event) {
+        // 키 다운 이벤트 처리
+        if (event.key === 'Right' || event.key === 'ArrowRight') {
+            rightPressed = true; // 오른쪽 키가 눌리면 true
+        } else if (event.key === 'Left' || event.key === 'ArrowLeft') {
+            leftPressed = true; // 왼쪽 키가 눌리면 true
+        }
+    }
+
+    function keyUpHandler(event) {
+        // 키 업 이벤트 처리
+        if (event.key === 'Right' || event.key === 'ArrowRight') {
+            rightPressed = false; // 오른쪽 키가 떼어지면 false
+        } else if (event.key === 'Left' || event.key === 'ArrowLeft') {
+            leftPressed = false; // 왼쪽 키가 떼어지면 false
+        }
+    }
+
+    function drawPaddle() {
+        // 패들 그리기
+        ctx.fillStyle = 'white'; // 패들 색상 설정
+        ctx.fillRect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight); // 패들 그리기
+    }
+
+    function drawBall() {
+        // 공 그리기
+        ctx.fillStyle = 'white'; // 공 색상 설정
+        ctx.beginPath(); // 새로운 경로 시작
+        ctx.arc(ballX, ballY, ballSize, 0, Math.PI * 2); // 공 그리기
+        ctx.fill(); // 공 채우기
+        ctx.closePath(); // 경로 닫기
+    }
+
+    function collisionDetection() {
+    // 충돌 감지 함수
+    // 패들과의 충돌 감지
+    if (ballY + ballSize >= canvas.height - paddleHeight &&
+        ballX > paddleX &&
+        ballX < paddleX + paddleWidth) {
+        ballDY = -ballDY; // 공의 방향 반전
+        ballY = canvas.height - paddleHeight - ballSize; // 공 위치 조정
+    }
+
+    // 블록과의 충돌 감지
+    for (let i = 0; i < blocks.length; i++) {
+        const block = blocks[i];
+        if (block.rect.x < ballX && ballX < block.rect.x + block.rect.width &&
+            block.rect.y < ballY && ballY < block.rect.y + block.rect.height) {
+            ballDY = -ballDY; // 공의 방향 반전
+            blocks.splice(i, 1); // 블록 제거
+            score++; // 점수 증가
+            break; // 루프 종료
+        }
+    }
+
+    // 블록이 모두 사라졌는지 확인
+    if (blocks.length === 0) {
+        if (confirm('당신이 승리했습니다! 계속하시겠습니까? 나가시겠습니까?')) {
+            init(); // 게임 초기화
+        } else {
+            window.location.href = '/main/home'; // 홈으로 이동
+        }
+    }
+}
+
+    function gameLoop() {
+    // 경과 시간 계산 (초 단위)
+    elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // 캔버스 지우기
+    drawPaddle(); // 패들 그리기
+    drawBall(); // 공 그리기
+    collisionDetection(); // 충돌 감지
+
+    // 공 위치 업데이트
+    ballX += ballDX;
+    ballY += ballDY;
+
+    // 벽과의 충돌 감지
+    if (ballX + ballSize > canvas.width || ballX - ballSize < 0) {
+        ballDX = -ballDX; // 수평 방향 반전
+    }
+    if (ballY - ballSize < 0) {
+        ballDY = -ballDY; // 수직 방향 반전
+    } else if (ballY + ballSize > canvas.height) {
+        // 게임 오버 처리
+        if (confirm('게임 오버! 다시 시작하시겠습니까?')) {
+            init(); // 게임 초기화
+        } else {
+            window.location.href = '/main/home'; // 홈으로 이동
+        }
+        return; // 함수 종료
+    }
+
+    // 패들 이동
+    if (rightPressed && paddleX < canvas.width - paddleWidth) {
+        paddleX += 7; // 오른쪽으로 이동
+    } else if (leftPressed && paddleX > 0) {
+        paddleX -= 7; // 왼쪽으로 이동
+    }
+
+    // 점수 및 시간 표시
+    ctx.fillStyle = 'white';
+    ctx.fillText(`Score: ${score}`, canvas.width - 100, 30); // 점수 텍스트를 오른쪽 최상단에 그리기
+    ctx.fillText(`Time: ${elapsedTime}s`, 10, 30); // 경과 시간 텍스트를 왼쪽 최상단에 그리기
+
+    // 블록 그리기
+    blocks.forEach(block => block.draw()); // 블록 그리기
+}
+
+
+    window.onload = init; // 페이지 로드 시 초기화 함수 호출
+</script>
+</body>
+</html>

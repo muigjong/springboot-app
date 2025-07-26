@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>이벤트 순위</title>
+    <style>
+        a {
+                text-decoration: none;
+                           }
+
+        #rankings_div {
+        width: 600px;
+        margin: 0 auto; /* 중앙 정렬 */
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9;
+        }
+
+        #rankings_div h1 {
+        text-align: center;
+        color: #333;
+        font-family: 'Arial', sans-serif;
+        margin-bottom: 20px;
+        }
+
+        #rankings_div table {
+        width: 100%;
+        border-collapse: collapse;
+        }
+
+        #rankings_div th,
+        #rankings_div td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #ddd;
+        }
+
+        #rankings_div th {
+        background-color: #007bff; /* 헤더 배경색 */
+        color: white;
+        font-family: 'Arial', sans-serif;
+        }
+
+        #rankings_div tr:nth-child(even) {
+        background-color: #f2f2f2; /* 짝수 행 배경색 */
+        }
+
+        #rankings_div tr:hover {
+        background-color: #ddd; /* 마우스 오버 시 배경색 */
+        }
+
+        #rankings_div .error {
+        color: red;
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<th:block th:include="layouts/header"></th:block>
+
+<div id="rankings_div">
+<h1>이벤트 순위</h1>
+
+<!-- 오류 메시지 표시 -->
+<div th:if="${error}" th:text="${error}" style="color: red;"></div>
+    <br>
+    <br>
+
+<table>
+    <thead>
+    <tr>
+        <th>순위</th>
+        <th>닉네임</th>
+        <th>점수</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="score : ${rankedScores}">
+        <td th:text="${score.rank}"></td>
+        <td th:text="${score.user.nickname}"></td>
+        <td th:text="${score.totalScore}"></td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+
+    <title>코람데오 성경퀴즈 공지 보기</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <script src="/js/header.js"></script>
+    <style>
+        body {
+            font-family: 'Nanum Gothic', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        #customerCenterContainer_title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-top: 50px;
+            color: #4A90E2;
+            font-weight: 700;
+        }
+
+        #customerCenterContainer_body {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .customerCenter_box {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            margin: 10px;
+            padding: 30px;
+            transition: transform 0.3s;
+            max-width: 600px; /* 폭을 600px로 설정 */
+            width: 100%; /* 반응형을 위해 100%로 설정 */
+            margin: 0 auto; /* 중앙 정렬 */
+        }
+
+        .customerCenter_box:hover {
+            transform: translateY(-10px);
+        }
+
+        #customerCenterContainer_center {
+            width: 100%; /* 반응형을 위해 100%로 설정 */
+            margin: 30px auto;
+        }
+
+        #title-margin {
+            margin-top: 50px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4A90E2;
+            font-weight: 500;
+        }
+
+        a:hover {
+            color: #357ABD;
+        }
+
+        .center-margin {
+            margin-left: 20px;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
+
+        .center-margin-span {
+            color: #FF4A4A;
+            font-weight: 700;
+        }
+
+        @media (max-width: 600px) {
+            #customerCenterContainer_title {
+                font-size: 2em; /* 모바일에서 제목 크기 조정 */
+            }
+
+            .customerCenter_box {
+                padding: 20px; /* 모바일에서 패딩 조정 */
+            }
+        }
+    </style>
+</head>
+
+<body>
+<th:block th:include="layouts/header"></th:block>
+
+<div id="customerCenterContainer">
+    <div id="customerCenterContainer_title">공지사항</div>
+
+
+    <div id="customerCenterContainer_center" class="customerCenter_box">
+        <div style="width: 100%; margin: 0 auto;">
+            <div th:each="notice : ${notices}" style="margin-bottom: 20px;">
+                <div style="border: 1px solid #ccc; border-radius: 10px; padding: 20px; background-color: #f9f9f9; position: relative;">
+                    <span style="font-size: 25px; color: #1e90ff;">
+                        <span>제목: </span><span th:text="${notice.noticeTitle}" style="color: #1e90ff;"></span>
+                    </span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <p style="font-size: 14px; color:#1e90ff;">올린 시간: <span th:text="${notice.formattedCreatedAt}" style="color: #1e90ff;"></span></p>
+                    <div style="text-align: center; margin-bottom: 10px;">
+                        <div style="position: relative; display: inline-block;">
+                            <img th:src="@{${'http://192.168.0.165/' + notice.noticeImage}}" alt="공지 이미지" style="max-width: 100%; height: auto; border-radius: 5px;"/>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 25px; text-align: center; background-color: rgba(0, 0, 0, 0.5); padding: 10px; border-radius: 5px;" th:text="${notice.noticeText}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+
+<head>
+    <title>코람데오 성경퀴즈 문제 리스트</title>
+    <style>
+        body {
+        font-family: 'Nanum Gothic', sans-serif;
+            display: flex;
+            flex-direction: column; /* 세로 방향으로 배치 */
+            align-items: center; /* 가운데 정렬 */
+        }
+        table {
+            width: 1200px;
+            border-collapse: collapse;
+            margin-bottom: 20px; /* 테이블과 검색 사이의 간격 */
+        }
+        th {
+            background-color: #f2f2f2;
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        .number { width: 5%; text-align: center;}
+        .question { width: 20%; }
+        .options { width: 20%; }
+        .correct-answer { width: 15%; }
+        .commentary { width: 30%; }
+        .sort { width: 10%; }
+        .search-container, .pagination-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<table>
+    <tr>
+        <td colspan="6"><h1>전체 질문 목록</h1></td>
+    </tr>
+
+    <tr>
+        <th class="number">번호</th>
+        <th class="question">질문</th>
+        <th class="options">선택지</th>
+        <th class="correct-answer">정답</th>
+        <th class="commentary">관련구절</th>
+        <th class="sort">책</th>
+    </tr>
+    <tr th:each="quiz : ${quizQuestionalllist}">
+        <td th:text="${quiz.QuizQuestionId}" class="number"></td>
+        <td th:text="${quiz.question}" class="question"></td>
+        <td th:text="${quiz.options}" class="options"></td>
+        <td th:text="${quiz.correctAnswer}" class="correct-answer"></td>
+        <td th:text="${quiz.commentary}" class="commentary"></td>
+        <td th:text="${quiz.sort}" class="sort"></td>
+    </tr>
+    <tr>
+        <td colspan="6"><a href="/quiz/createQuizQuestion">새로운 질문 입력하기</a></td>
+    </tr>
+</table>
+
+<div class="search-container">
+    <form th:action="@{/quiz/listQuizQuestions}" method="get">
+        <input type="text" name="searchKeyword1" placeholder="권별로 검색">
+        <button type="submit">검색</button>
+    </form>
+</div>
+
+<div class="pagination-container">
+    <a th:href="@{/quiz/listQuizQuestions(page=0)}"><span class="quizQuestionalllist_span"><<</span></a>
+
+<!--    <th:block th:if="${firstPage != 0}">-->
+<!--        <span class="quizQuestionalllist_span">-->
+<!--            <a th:href="@{/quiz/listQuizQuestions(page=${firstPage})}" th:text="${firstPage + 1}"></a>-->
+<!--        </span>-->
+<!--</th:block>-->
+
+    <th:block th:if="${firstPage > 1}">
+        <span class="quizQuestionalllist_span">...</span>
+    </th:block>
+
+    <th:block th:each="page : ${#numbers.sequence(startPage, lastPage)}">
+        <span class="quizQuestionalllist_span">
+            <a th:if="${page != firstPage}"
+               th:href="@{/quiz/listQuizQuestions(page=${page - 1}, searchKeyword=${param.searchKeyword})}"
+               th:text="${page}"></a>
+            <strong th:if="${page == firstPage}" th:text="${page}" style="color : red"></strong>
+        </span>
+    </th:block>
+
+    <th:block th:if="${lastPage < totalPages - 1}">
+        <span class="quizQuestionalllist_span">...</span>
+    </th:block>
+
+    <th:block th:if="${lastPage < totalPages}">
+        <span class="quizQuestionalllist_span">
+            <a th:href="@{/quiz/listQuizQuestions(page=${totalPages - 1})}" th:text="${totalPages}"></a>
+        </span>
+    </th:block>
+
+    <a th:href="@{/quiz/listQuizQuestions(page=${quizQuestionalllist.TotalPages} - 1)}">
+        <span class="quizQuestionalllist_span">>></span>
+    </a>
+</div>
+
+
+
+</body>
+</html>

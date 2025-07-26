@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>교회별 회원 점수 조회</title>
+</head>
+<style>
+    body {
+       font-family: 'Nanum Gothic', Arial, sans-serif; /* 나눔고딕으로 변경 */
+       margin: 0;
+       padding: 0;
+       display: flex;
+       flex-direction: column;
+       align-items: center; /* 수직 정렬 */
+       background-color: #f4f4f4; /* 배경색 설정 */
+   }
+
+
+           .main {
+               margin-top: 20px; /* 상단 여백 */
+               display: flex;
+               flex-direction: column;
+               align-items: center; /* 수평 정렬 */
+               width: 100%;
+               max-width: 600px; /* 최대 폭 설정 */
+           }
+
+           a {
+                text-decoration: none; /* a 태그의 밑줄 제거 */
+}
+
+
+.church_input1 {
+width: 300px;
+height: 30px;
+text-align: center;
+font-size: 16px;
+border-radius: 10px; /* 버튼 모서리 둥글기 */
+border: 1px solid #007bff;
+}
+
+.church_bt1 {
+width: 100px;
+height: 30px;
+text-align: center;
+font-size: 16px;
+color: white;
+            background-color: #007bff; /* 버튼 배경색 */
+            border: none;
+            border-radius: 10px; /* 버튼 모서리 둥글기 */
+}
+
+.church_h3 {
+text-align: center;
+}
+
+    .church_td1 {
+    width: 50px;
+    text-align: center;
+    height: 30px;
+    }
+
+    .church_td2 {
+    width: 300px;
+     text-align: center;
+    }
+
+    .church_td3 {
+    width: 100px;
+     text-align: center;
+    }
+
+    .button_chbt {
+            display: block;
+            width: 450px; /* 버튼 너비를 100%로 설정 */
+            height: 50px; /* 버튼 높이 */
+            font-size: 18px; /* 버튼 텍스트 크기 */
+            color: white;
+            background-color: #007bff; /* 버튼 배경색 */
+            border: none;
+            border-radius: 10px; /* 버튼 모서리 둥글기 */
+            margin: 10px 0; /* 버튼 간격 */
+            cursor: pointer; /* 커서 모양 변경 */
+            transition: background-color 0.3s; /* 배경색 변화 효과 */
+        }
+</style>
+
+
+<body>
+<th:block th:include="layouts/header"></th:block>
+<div class="main">
+<h1>교회별 회원 점수 조회</h1>
+<form action="#" th:action="@{/church/churchUsers}" method="get">
+    <input type="text" name="church" placeholder="교회명을 입력하세요." required class="church_input1"/>
+    <button type="submit" class="church_bt1">조회</button>
+</form>
+    <p style="color:#007bff;">점수만 있는 회원만 표시 됩니다.</p>
+
+<div th:if="${userScores != null and userScores.size() == 0}">
+    <p>조회된 점수가 없습니다.</p>
+</div>
+<div th:if="${userScores != null and userScores.size() > 0}">
+    <h3 th:text="${churchName} + '의 총합산 점수: ' + ${churchTotalScore}" class="church_h3">총합산 점수</h3>
+
+    <button onclick="sortTable()" class="button_chbt">점수순으로 정렬</button>
+    <button onclick="sortByNickname()" class="button_chbt">가나다순으로 정렬</button>
+    <br>
+
+    <table id="scoreTable">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>닉네임</th>
+            <th>총점수</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="userScore, stat : ${userScores}">
+            <td th:text="${stat.index + 1}" class="church_td1"></td>
+            <td th:text="${userScore.nickname}" class="church_td2"></td>
+            <td th:text="${userScore.totalScore}" class="church_td3"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+</div>
+
+<!--점수순으로 정렬-->
+<script>
+    function sortTable() {
+        const table = document.getElementById("scoreTable");
+        const tbody = table.tBodies[0];
+        const rows = Array.from(tbody.rows);
+
+        // 총점수 기준으로 정렬 (내림차순)
+        rows.sort((a, b) => {
+            const scoreA = parseInt(a.cells[2].textContent);
+            const scoreB = parseInt(b.cells[2].textContent);
+            return scoreB - scoreA; // 내림차순 정렬
+        });
+
+        // 정렬된 행을 다시 tbody에 추가
+        rows.forEach(row => tbody.appendChild(row));
+    }
+</script>
+
+<!--가나다순으로 정렬-->
+<script>
+    function sortByNickname() {
+        const table = document.getElementById("scoreTable");
+        const tbody = table.tBodies[0];
+        const rows = Array.from(tbody.rows);
+
+        // 닉네임 기준으로 정렬 (가나다순)
+        rows.sort((a, b) => {
+            const nameA = a.cells[1].textContent; // 닉네임
+            const nameB = b.cells[1].textContent; // 닉네임
+            return nameA.localeCompare(nameB, 'ko'); // 한국어 기준으로 비교
+        });
+
+        // 정렬된 행을 다시 tbody에 추가
+        rows.forEach(row => tbody.appendChild(row));
+    }
+</script>
+</body>
+</html>
+
+
+

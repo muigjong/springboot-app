@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+
+    <title>작성한 게시판 문의 보기</title>
+</head>
+
+    <style>
+        body {
+                   font-family: 'Nanum Gothic', sans-serif;
+                   margin: 0;
+                   padding: 0;
+                   background-color: #f5f5f5;
+                   color: #333;
+               }
+
+               h1 {
+                  margin : 20px auto;
+               }
+
+        a {
+                       text-decoration: none; /* a 태그의 밑줄 제거 */
+       }
+
+
+               .main-center{
+               width: 100%;
+                   max-width: 500px;
+                   margin: 30px auto;
+                   padding: 10px;
+                   background-color: #f5f5f5;
+                   border-radius: 5px;
+                   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+               }
+
+
+               h1 {
+                   margin-bottom: 20px;
+                   font-size: 24px;
+                   color: #333;
+               }
+
+               h2 {
+                   margin-top: 30px;
+                   font-size: 20px;
+                   color: #333;
+                   border-bottom: 2px solid #f0768b;
+                   padding-bottom: 10px;
+               }
+
+               h3 {
+                   padding: 10px;
+                   margin-bottom: 20px;
+                   border: 1px solid #ccc;
+                   border-radius: 4px;
+                   background-color: #fff;
+                   overflow-wrap: break-word;
+               }
+
+               .button-group {
+                   margin-top: 20px;
+               }
+
+               .btn {
+                   display: inline-block;
+                   padding: 10px 20px;
+                   border: none;
+                   border-radius: 4px;
+                   background-color: #f0768b;
+                   color: white;
+                   text-decoration: none;
+                   margin-right: 10px;
+                   transition: background-color 0.3s;
+               }
+
+               .btn:hover {
+                   background-color: #d0657f; /* 호버 시 색상 변경 */
+               }
+
+               .btn-delete {
+                   background-color: #ff4d4d; /* 삭제 버튼 색상 */
+               }
+
+               .btn-delete:hover {
+                   background-color: #e60000; /* 호버 시 삭제 버튼 색상 변경 */
+               }
+
+               .respond {
+                   margin-top: 15px;
+                   padding: 10px;
+                   border: 1px solid #ddd;
+                   border-radius: 4px;
+                   background-color: #fafafa;
+               }
+
+               .respond-header {
+                   display: flex;
+                   justify-content: space-between;
+                   font-weight: bold;
+               }
+
+               .respond-date {
+                   font-size: 0.9em;
+                   color: #888;
+               }
+
+               .respond-content {
+                   margin-top: 10px;
+                   line-height: 1.5;
+               }
+    </style>
+
+
+
+<body>
+<th:block th:include="layouts/header"></th:block>
+
+    <div class="main-center">
+        <div class="main-content">  
+
+            <form class="board_view">
+                <h1>게시판 문의 내용 보기</h1>
+
+                <h3 th:text="${board.boardTitle}">제목</h3>
+                <h3 th:text="${board.boardContent}">내용</h3>
+
+                <div class="button-group">
+                    <a th:href="@{/board/modify/{boardId}(boardId=${board.boardId})}" class="btn">수정하기</a>
+                    <a th:href="@{/board/delete(boardId=${board.boardId})}"
+                       th:onclick="'return confirm(''이 문의를 삭제하시겠습니까?'');'" class="btn btn-delete">삭제하기</a>
+                </div>
+            </form>
+
+            <h2>답글 목록</h2>
+            <div th:each="respond : ${responds}" class="respond">
+                <div class="respond-header">
+                    <strong>코람데오 성경퀴즈</strong>
+                    <span class="respond-date" th:text="${#dates.format(respond.respondDate, 'yyyy-MM-dd HH:mm')}">답글 날짜</span>
+
+                </div>
+                <p class="respond-content" th:text="${respond.respondContent}">답글 내용</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

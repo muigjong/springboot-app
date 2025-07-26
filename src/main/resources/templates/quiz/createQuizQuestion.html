@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+
+<head>
+    <title>코람데오 성경퀴즈 문제 만들기</title>
+    <style>
+        body {
+            font-family: 'Nanum Gothic', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+
+        form {
+            width: 1200px;
+            margin-top: 200px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<form action="#" th:action="@{/quiz/createQuizQuestion}" th:object="${quizQuestion}" method="post">
+    <h1>성경 퀴즈 문제 입력</h1>
+    <br/>
+    <label for="question">문제</label>
+    <input type="text" id="question" th:field="*{question}" required/>
+    <br/>
+
+    <label for="options">제시 답</label>
+    <input type="text" id="options" th:field="*{options}" required placeholder="Option1, Option2, Option3, Option4"/>
+    <br/>
+
+    <label for="correctAnswer">정답</label>
+    <input type="text" id="correctAnswer" th:field="*{correctAnswer}" required/>
+    <br/>
+
+    <label for="commentary">참고 구절</label>
+    <input type="text" id="commentary" th:field="*{commentary}" required/>
+    <br/>
+
+    <label for="sort">책</label>
+    <input type="text" id="sort" th:field="*{sort}" required/>
+    <br/>
+
+    <button type="submit">등록하기</button>
+</form>
+</body>
+</html>

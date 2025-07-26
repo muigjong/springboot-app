@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+
+    <title>작성한 게시판 문의 수정하기</title>
+
+</head>
+    <style>
+
+        body {
+                   font-family: 'Nanum Gothic', sans-serif;
+                   margin: 0;
+                   padding: 0;
+                   background-color: #f5f5f5;
+                   color: #333;
+               }
+
+               h1 {
+                  margin : 20px auto;
+               }
+
+        a {
+                       text-decoration: none; /* a 태그의 밑줄 제거 */
+       }
+
+        .layout {
+            flex-grow: 1;
+            padding: 15px;
+            margin: 30px auto;
+            max-width: 550px;
+            width: 100%;
+            background-color: #f5f5f5;
+                   border-radius: 5px;
+                   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical; /* 텍스트 영역의 수직 크기 조정 가능 */
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #f0768b;
+            color: white;
+        }
+        button:hover {
+            background-color: #e65c00; /* 버튼 호버 효과 */
+        }
+
+        .board_modify {
+            margin : 79px;
+        }
+
+
+    </style>
+
+<body>
+<th:block th:include="layouts/header"></th:block>
+
+
+<div class="layout">
+    <form class="board_modify" th:action="@{/board/update/{boardId}(boardId=${board.boardId})}" method="post">
+
+        <h1>게시판 문의 수정</h1>
+
+        <div>
+            제목
+            <input name="boardTitle" type="text" th:value="${board.boardTitle}" required>
+        </div>
+        <div>
+            내용
+            <textarea name="boardContent" th:text="${board.boardContent}" required></textarea>
+        </div>
+        <button type="submit">수정</button>
+        <button type="button" class="btn-cancel"> <a href="/board/list">취소</a></button>
+    </form>
+</div>
+
+</body>
+
+</html>

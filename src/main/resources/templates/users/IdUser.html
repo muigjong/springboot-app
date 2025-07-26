@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+
+<head>
+    <meta charset="UTF-8">
+    <title>코람데오 성경퀴즈 회원 정보 보기</title>
+    <!--    <meta name="_csrf" content="${_csrf.token}">-->
+</head>
+    <style>
+        body {
+        font-family: 'Nanum Gothic', sans-serif;
+        }
+
+        #allusers {
+    width: 100%;
+    max-width: 550px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+a {
+            text-decoration: none;
+            color: #4A90E2;
+            font-weight: 500;
+        }
+
+    #allusers table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+    }
+
+    #allusers td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    }
+
+
+    #allusers a {
+    color: #007bff;
+    text-decoration: none;
+    }
+
+    #allusers a:hover {
+    color: #0056b3;
+    }
+
+    #allusers button {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    }
+
+    #allusers button:hover {
+    background-color: #0056b3;
+    }
+
+    #allusers_t {
+    font-weight: bold;
+    }
+    </style>
+
+
+
+
+
+<body>
+
+<th:block th:include="layouts/header"></th:block>
+    <div id="allusers">
+        <table>
+             <tr>
+                 <td th:text="'가입일: ' + ${#dates.format(user.userDate, 'yyyy-MM-dd HH:mm')}"></td>
+                 <td></td>
+             </tr>
+            <tr>
+                <td th:text="'이메일: ' + ${user.email}" id="allusers_t"></td>
+                <td></td>
+
+            </tr>
+            <tr>
+                <td th:text="'휴대폰번호: ' + ${user.phone}"></td>
+                <td></td>
+
+            </tr>
+
+
+             <tr>
+             <td th:text="'성명: ' + ${user.name}"></td>
+                 <td></td>
+
+             </tr>
+            <tr>
+                <td th:text="'닉네임: ' + ${user.nickname}"></td>
+                <td></td>
+
+            </tr>
+            <tr>
+                <td th:text="'생년월일: ' + ${user.birthday}"></td>
+                <td></td>
+
+            </tr>
+
+
+            <tr>
+                <td ><a th:href="@{/users/modify}">
+                    <button>정보 수정하기</button>
+                </a></td>
+                <td ><a th:href="@{/users/userDelete(id=${user.userId})}">
+                    <button>탈퇴하기</button>
+                </a></td>
+            </tr>
+        </table>
+
+
+    </div>
+</div>
+
+
+
+</body>
+
+</html>

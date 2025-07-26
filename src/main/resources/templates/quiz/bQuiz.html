@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>코람데오 성경퀴즈</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 뷰포트 설정 추가 -->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+
+</head>
+<style>
+    body {
+    font-family: 'Nanum Gothic', sans-serif;
+        width: 100%;
+        max-width: 600px; /* 최대 폭 600px 유지 */
+        margin: 5% auto;
+        padding: 0 10px;
+    }
+
+a {
+            text-decoration: none;
+            color: #4A90E2;
+            font-weight: 500;
+        }
+
+    table {
+        width: 100%;
+        border-spacing: 20px 30px; /* 간격 조정 */
+    }
+
+    .option-text {
+        display: inline-block;
+        margin-left: 5px;
+    }
+
+    #td1, #td2, #td3 {
+        vertical-align: top;
+    }
+
+    #td1 {
+        width: 20%; /* 비율 조정 */
+    }
+
+    #td2 {
+        width: 50%;
+    }
+
+    #td3 {
+        width: 30%; /* 비율 조정 */
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    h1 {
+        color: #003366;
+        text-align: center;
+        font-size: 24px; /* 제목 크기 조정 */
+    }
+
+
+
+    @media (max-width: 600px) {
+        body {
+            padding: 0 5px; /* 모바일에서 여백 조정 */
+        }
+
+        h1 {
+            font-size: 20px; /* 모바일 제목 크기 조정 */
+        }
+
+        .button {
+            height: 35px; /* 모바일에서 버튼 높이 조정 */
+            font-size: 16px; /* 모바일에서 버튼 폰트 크기 조정 */
+        }
+    }
+</style>
+
+<body>
+<th:block th:include="layouts/header"></th:block>
+
+
+
+<h1>성경퀴즈</h1>
+
+<!-- 퀴즈 질문 -->
+<form method="post" action="/quiz/submitAnswers">
+    <table>
+        <tr th:each="quiz : ${quizQuestions}">
+            <td id="td1"  th:text="${quiz.quizQuestionId}" style="color: #D5006D;"></td>
+            <td id="td2" th:text="${quiz.question}"></td>
+            <td id="td3" >
+                <ul>
+                    <li th:each="option : ${quiz.getOptionsList()}">
+                        <input type="radio" th:name="'userAnswer' + ${quiz.quizQuestionId}" th:value="${option}" required/>
+                        <span th:text="${option}" class="option-text"></span>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+    <!-- 제출 버튼 추가 -->
+    <button id="bt5" class="button"  type="submit">제출</button>
+</form>
+</body>
+</html>

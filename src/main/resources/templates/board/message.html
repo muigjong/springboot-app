@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+    <title>게시글 삭제 완료</title>
+    <script>
+     const redirectUrl = /*[[${sUrl}]]*/ '/board/list'; // 기본 URL을 설정
+     setTimeout(function() {
+         window.location.href = redirectUrl;
+     }, 3000);
+    </script>
+    <style>
+        body {
+            font-family: 'Nanum Gothic', sans-serif;
+            display: flex;
+            justify-content: center; /* 수평 중앙 정렬 */
+            align-items: flex-start; /* 수직 상단 정렬 */
+            height: 100vh; /* 전체 화면 높이 */
+            margin: 0; /* 기본 마진 제거 */
+            background-color: #f9f9f9; /* 배경색 설정 */
+        }
+
+        .message-container {
+            width: 1200px; /* 폭 1200px */
+            padding: 20px;
+            background-color: white; /* 배경색 흰색 */
+            border-radius: 8px; /* 모서리 둥글게 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+            position: relative; /* 자식 요소의 절대 위치를 위한 상대 위치 설정 */
+            top: 300px; /* 위에서 300px 위치 */
+        }
+
+        h1 {
+            font-size: 24px; /* 제목 크기 */
+            color: #333; /* 제목 색상 */
+        }
+
+        p {
+            font-size: 18px; /* 본문 크기 */
+            color: #555; /* 본문 색상 */
+            margin: 10px 0; /* 상하 여백 */
+        }
+
+        a {
+            display: inline-block; /* 링크를 블록으로 설정 */
+            margin-top: 20px; /* 위쪽 여백 */
+            padding: 10px 20px; /* 안쪽 여백 */
+            background-color: #007bff; /* 버튼 배경색 */
+            color: white; /* 버튼 글자색 */
+            text-decoration: none; /* 밑줄 제거 */
+            border-radius: 5px; /* 모서리 둥글게 */
+            transition: background-color 0.3s; /* 호버 효과를 위한 트랜지션 */
+        }
+
+        a:hover {
+            background-color: #0056b3; /* 호버 시 배경색 변경 */
+        }
+    </style>
+</head>
+<body>
+<div class="message-container">
+    <h1>알림</h1>
+    <p th:text="${message}">삭제 완료 메시지</p>
+    <p>3초 후 목록으로 돌아갑니다...</p>
+    <a th:href="${sUrl}">즉시 돌아가기</a> <!-- 사용자가 즉시 돌아갈 수 있는 링크 --> <!-- 사용자가 즉시 돌아갈 수 있는 링크 -->
+</div>
+</body>
+</html>

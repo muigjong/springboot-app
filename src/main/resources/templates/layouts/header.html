@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>코람데오 성경퀴즈</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 뷰포트 설정 추가 -->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+
+</head>
+<style>
+    body {
+        width: 100%;
+        max-width: 600px; /* 최대 폭 600px 유지 */
+        margin: 5% auto;
+        padding: 0 10px;
+        font-family: 'Nanum Gothic', sans-serif;
+    }
+
+#header_p {
+    font-size: 50px;
+    text-align: center; /* 텍스트를 중앙 정렬 */
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+
+    .header_box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .header_box a {
+        margin: 0 10px;
+        text-decoration: none; /* a 태그의 밑줄 제거 */
+
+    }
+
+    /* 버튼 스타일 추가 */
+    .button {
+        display: block;
+        width: 120px; /* 전체 폭 사용 */
+        height: 45px; /* 버튼 높이 통일 */
+        font-size: 18px; /* 버튼 폰트 크기 통일 */
+        color: white;
+        border: none;
+        border-radius: 15px;
+        margin: 10px 0; /* 위 아래 여백 조정 */
+        cursor: pointer;
+        transition: background-color 0.3s; /* 배경색 변화 효과 추가 */
+        text-decoration: none; /* 텍스트의 밑줄 제거 */
+        text-align: center; /* 텍스트를 중앙 정렬 */
+    }
+
+    #bt1 { background-color: #FF7F7F; }
+    #bt2 { background-color: #FF7F7F; }
+    #bt3 { background-color: #FFD700; }
+    #bt4 { background-color: #003366; }
+    #bt5 { background-color: #D5006D; height: 50px; font-size: 20px; } /* 크기 조정 */
+
+
+    h3 {
+                   padding: 10px;
+                   margin-bottom: 20px;
+                   border: 1px solid #ccc;
+                   border-radius: 4px;
+                   background-color: #fff;
+                   overflow-wrap: break-word;
+               }
+
+    @media (max-width: 600px) {
+        body {
+            padding: 0 5px; /* 모바일에서 여백 조정 */
+        }
+
+        .button {
+            height: 45px; /* 모바일에서도 버튼 높이 통일 */
+            font-size: 18px; /* 모바일에서도 버튼 폰트 크기 통일 */
+        }
+    }
+</style>
+
+<body>
+<a href="/coramdeobiblequiz"><div id="header_p">코람데오 성경퀴즈</div></a>
+<h2 style="color: #551A8B; text-align: center;">[개역개정]</h2>
+<div class="header_box">
+        <a href="/login"><button id="bt1" class="button" th:if="${nickname == null}">로그인</button></a>
+    <a href="/join"><button id="bt2" class="button" th:if="${nickname == null}">회원가입</button></a>
+    <div th:if="${nickname == '관리자'}">
+        <a href="/admin/home"><span th:text="${nickname}"></span></a>
+    </div>
+    <div th:if="${nickname != null and nickname != '관리자'}">
+        <a href="/users/view"><span th:text="${nickname}"></span></a>
+    </div>
+    <h3 style="color: #D5006D" th:if="${totalScore != null}">포인트: <span th:text="${totalScore}"></span></h3>
+    <a href="/logout"><button id="bt3" class="button" th:if="${nickname != null}">로그아웃</button></a>
+    <a href="/coramdeobiblequiz"><button id="bt4" class="button">처음으로</button></a>
+</div>
+</body>
+</html>

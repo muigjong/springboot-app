@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+
+<head>
+    <meta charset="UTF-8">
+    <title>코람데오 성경퀴즈 회원 정보 수정</title>
+
+</head>
+
+    <style>
+        body {
+        font-family: 'Nanum Gothic', sans-serif;
+        }
+
+        #allusers {
+    width: 100%;
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    a {
+            text-decoration: none;
+            color: #4A90E2;
+            font-weight: 500;
+        }
+
+    #allusers table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+    }
+
+    #allusers td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    }
+
+    #allusers th {
+    background-color: #f2f2f2;
+    }
+
+    #allusers a {
+    color: #007ACC;;
+    text-decoration: none;
+    }
+
+    #allusers a:hover {
+    color: #007ACC;;
+    }
+
+    #allusers button {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    }
+
+    #allusers button:hover {
+    background-color: #0056b3;
+    }
+
+    #allusers_t {
+    font-weight: bold;
+    }
+    </style>
+
+
+
+<body>
+
+<th:block th:include="layouts/header"></th:block>
+<!----------------------------------------->
+<div id="allusers">
+    <table>
+        <tr>
+            <td>가입일시</td>
+            <td th:text="${#dates.format(user.userDate, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+    <tr>
+        <td>이메일 </td>
+        <td th:text="${user.email}"></td>
+    </tr>
+    <tr>
+        <td>성명</td>
+        <td th:text="${user.name}"></td>
+    </tr>
+    <tr>
+        <td>닉네임</td>
+        <td th:text="${user.nickname}"></td>
+    </tr>
+    <tr>
+        <td>회원권한</td>
+        <td th:text="${user.role}"></td>
+    </tr>
+
+
+    </table>
+
+
+    <form action="#" th:action="@{/users/update}" th:object="${user}" method="post">
+        <table>
+
+            <tr>
+                <td>생년월일</td>
+                <td><input name="birthday" type="date" th:field="*{birthday}"></td>
+            </tr>
+            <tr>
+                <td>휴대폰번호</td>
+                <td><input name="phone" type="tel" th:field="*{phone}"></td>
+            </tr>
+
+            <tr>
+                <td>출석교회</td>
+                <td><input name="church" type="text" th:field="*{church}"></td>
+            </tr>
+
+            <tr>
+                <td colspan="4" ><button type="submit">수정 완료</button></td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+
+</body>
+
+</html>

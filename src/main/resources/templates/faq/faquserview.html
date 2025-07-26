@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+
+    <title>자주하는 질문</title>
+    <style>
+        body {
+           font-family: 'Nanum Gothic', sans-serif;
+           margin: 0;
+           padding: 0;
+           background-color: #f5f5f5;
+           color: #333;
+       }
+
+a {
+            text-decoration: none;
+            color: #4A90E2;
+            font-weight: 500;
+        }
+
+               .customerCenter_box {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            margin: 10px;
+            padding: 30px;
+            transition: transform 0.3s;
+            max-width: 600px; /* 폭을 600px로 설정 */
+            width: 100%; /* 반응형을 위해 100%로 설정 */
+            margin: 0 auto; /* 중앙 정렬 */
+        }
+
+        .customerCenter_box:hover {
+            transform: translateY(-10px);
+        }
+
+        #customerCenterContainer_center {
+            width: 100%; /* 반응형을 위해 100%로 설정 */
+            margin: 30px auto;
+        }
+
+       .faquser_container {
+           max-width: 550px;
+           margin: 30px auto; /* 중앙 정렬 */
+       }
+       .faq-title {
+           color: #007BFF; /* 짙은 하늘색 */
+       }
+       .faq-date {
+           color:  #007BFF; /* 짙은 하늘색 */
+       }
+    </style>
+
+
+</head>
+<body>
+<th:block th:include="layouts/header"></th:block>
+
+<div id="customerCenterContainer_center" class="customerCenter_box">
+    <h1 style="margin: 0 0 0 150px;">자주하는 질문</h1>
+    <div class="faquser_container">
+        <div class="list-group">
+            <div th:each="faq : ${faqs}">
+                <details class="list-group-item" style="margin-bottom: 20px;">
+                    <summary class="d-flex justify-content-between align-items-center">
+                        <span class="faq-title">[자주하는 질문] <span th:text="${faq.faqTitle}"></span></span>
+                        <span class="faq-date" style="position: absolute; font-size: 12px; margin: 3px 30px; color: purple;"
+                              th:text="${faq.formattedCreatedAt}"></span> <!-- 위치와 색상 설정 -->
+                    </summary>
+                    <div>
+                        <p th:text="${faq.faqText}"></p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

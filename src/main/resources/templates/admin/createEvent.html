@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+    <title>코람데오 성경퀴즈</title>
+    <style>
+        body {
+            font-family: 'Nanum Gothic', sans-serif;
+            background-color: #ffffff; /* 배경색을 흰색으로 변경 */
+            color: #333333; /* 텍스트 색상을 어두운 회색으로 변경 */
+            margin: 0;
+            padding: 0;
+        }
+        #admin_title {
+            background-color: #f0f0f0; /* 제목 배경색을 밝은 회색으로 변경 */
+            padding: 1rem;
+            text-align: center;
+            font-size: 1.5rem;
+            border-bottom: 1px solid #ccc; /* 경계선을 밝은 회색으로 변경 */
+        }
+        #admin_container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        #admin_top_link {
+            background-color: #f0f0f0; /* 상단 링크 배경색 변경 */
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #ccc;
+        }
+        #admin_top_link a {
+            color: #007bff; /* 링크 색상을 파란색으로 변경 */
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+        #admin_body {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+        #admin_left {
+            background-color: #f9f9f9; /* 왼쪽 메뉴 배경색 변경 */
+            padding: 1rem;
+            width: 250px;
+            border-right: 1px solid #ccc;
+        }
+        #admin_left a {
+            color: #007bff; /* 링크 색상 변경 */
+            text-decoration: none;
+        }
+        .admin_left_1, .admin_left_2, .admin_left_3 {
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            border: 1px solid #ccc; /* 경계선을 밝은 회색으로 변경 */
+            padding: 10px;
+            background-color: #ffffff; /* 각 메뉴 항목 배경색을 흰색으로 변경 */
+        }
+        .left_margin ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+        .left_margin ul li {
+            margin: 0.5rem 0;
+        }
+        #admin_center {
+            padding: 1rem;
+            margin-top: 200px; /* 아래쪽 마진 추가 */
+        }
+        #admin_center img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+
+<!-- 이벤트 생성   -->
+    <style>
+
+        #createEvent_div {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        #createEvent_h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #createEvent_div form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* 요소 간의 간격 */
+        }
+
+        .date-inputs {
+            display: flex;
+            justify-content: space-between; /* 입력 필드 간의 간격을 균등하게 배치 */
+        }
+
+        #createEvent_div input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            flex: 1; /* 입력 필드가 동일한 비율로 공간을 차지하도록 설정 */
+            margin-right: 10px; /* 오른쪽 입력 필드와의 간격 */
+        }
+
+        #createEvent_div input[type="date"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        #createEvent_div input[type="date"]:last-child {
+            margin-right: 0; /* 마지막 입력 필드의 오른쪽 여백 제거 */
+        }
+
+        #createEvent_div button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        #createEvent_div button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="admin_title">관리자 페이지입니다.</div>
+
+
+      <div id="admin_container">
+          <div id="admin_top_link"><a href="/coramdeobiblequiz">[메인페이지 바로가기]</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/logout">로그아웃</a></div>
+
+        <div id=admin_body>
+            <!-- 왼쪽 -->
+            <div id="admin_left" class="customerCenter_box">
+
+                <div class="admin_left_1">
+                    <br>
+                    <div class="left_margin"><a href="/quiz/createQuizQuestion">성경퀴즈</a>
+                        <ul>
+                            <li><a href="/quiz/createQuizQuestion">성경퀴즈 입력</a></li>
+                            <li><a href="/quiz/listQuizQuestions">성경퀴즈 목록</a></li>
+
+
+                        </ul>
+
+                    </div>
+                </div>
+
+                <div class="admin_left_1">
+                    <br>
+                    <div class="left_margin"><a href="/admin/AllUsers">회원관리</a>
+                        <ul>
+                            <li><a href="/admin/AllUsers">회원목록/검색/강퇴</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="admin_left_2">
+                    <br>
+                    <div class="left_margin"><a href="/adminBoard/list">게시판 문의 관리</a>
+                        <ul>
+                            <li><a href="/adminBoard/list">게시판 문의 목록보기</a></li>
+                            <!--                            <li><a href="">게시판 문의 답변 달기</a></li>-->
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="admin_left_3">
+                    <br>
+                    <div class="left_margin"><a href="">공지사항</a>
+                        <ul>
+                            <li><a href="/notice/list">공지 목록/등록/수정/삭제</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="admin_left_3">
+                    <br>
+                    <div class="left_margin"><a href="">자주하는 질문</a>
+                        <ul>
+                            <li><a href="/faqList">문답 목록/등록/수정/삭제</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="admin_left_3">
+                    <br>
+                    <div class="left_margin"><a href="">이벤트</a>
+                        <ul>
+                            <li><a href="/admin/events">이벤트 기간 설정</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 가운데 -->
+            <div id="admin_center" class="customerCenter_box">
+                <div id="createEvent_div">
+                <h1 id="createEvent_h1">이벤트 생성</h1>
+                <form action="/admin/events/create" method="post">
+                    시작 날짜: <input type="date" name="startDate" id="createEvent_input1" required>
+                    종료 날짜: <input type="date" name="endDate" id="createEvent_input2" required>
+                    <button type="submit" id="createEvent_bt">생성</button>
+                </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>

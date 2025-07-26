@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400&display=swap" rel="stylesheet">
+
+    <title>코람데오 성경퀴즈 게시판 문의 작성</title>
+ </head>
+
+    <style>
+        body {
+           font-family: 'Nanum Gothic', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        h1 {
+           margin : 20px auto;
+        }
+
+ a {
+                text-decoration: none; /* a 태그의 밑줄 제거 */
+}
+
+        .main-content {
+             margin-top: 10px; /* 상단 여백 */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 수평 정렬 */
+            width: 100%;
+            max-width: 600px; /* 최대 폭 설정 */
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-cancel {
+            background-color: #ccc;
+            margin-right: 10px;
+        }
+        .btn-submit {
+            background-color: #f0768b;
+            color: white;
+        }
+         .board_write {
+            margin : 79px;
+        }
+
+
+    </style>
+
+
+
+<body>
+<th:block th:include="layouts/header"></th:block>
+<div class="main-content">
+
+    <form class="board_write" action="/board/writepro" method="post">
+        <h1 class="board_h1">게시판 문의하기</h1>
+        <input placeholder="제목은 15글자 이내로" name="boardTitle" type="text" required>
+        <label>문의 내용</label>
+        <textarea placeholder="문의내용은 300글자 이내로" name="boardContent" required></textarea>
+        <input type="hidden" name="userId"> <!-- 닉네임을 숨겨진 필드로 추가 -->
+        <button type="button" class="btn-cancel"> <a href="/board/list">취소하기</a></button>
+        <button type="submit" class="btn-submit">작성하기</button>
+    </form>
+
+</div>
+</body>
+
+</html>
