@@ -36,7 +36,7 @@ public class Board   {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
 

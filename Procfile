@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar build/libs/springbootdeveloper-0.0.1-SNAPSHOT.jar
+web: java -Dspring.datasource.url=jdbc:mysql://sql12.freesqldatabase.com:3306/sql12792690?useSSL=false&serverTimezone=UTC -Dspring.datasource.username=sql12792690 -Dspring.datasource.password=6UBxAbaPJr -Dspring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver -jar target/your-app.jar

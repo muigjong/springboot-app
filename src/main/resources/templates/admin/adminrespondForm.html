@@ -66,6 +66,7 @@
 <body>
 <div class="respond-form">
     <h2>답글 작성</h2>
+    <!-- 폼 데이터는 /respond로 보내세요. (혹은 /admin/responds) -->
     <form action="/respond" method="post">
         <input type="hidden" name="boardId" th:value="${board.boardId}"/>
         <div>
