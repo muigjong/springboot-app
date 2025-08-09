@@ -23,64 +23,53 @@ repositories {
 	mavenCentral()
 }
 
-
-
 dependencies {
+	// Spring Boot 기본 스타터
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	// Thymeleaf 추가 기능
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.1.0.RELEASE'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+	// 보안 관련
 	implementation 'org.springframework.security:spring-security-core:6.0.0'
 	implementation 'org.springframework.security:spring-security-web:6.0.0'
 	implementation 'org.springframework.security:spring-security-config:6.0.0'
+
+	// JWT
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
-	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-mustache'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'mysql:mysql-connector-java:8.0.26'
-	runtimeOnly 'com.h2database:h2'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-	//오픈A 활용하기 위한 의존성 추가
+	// 외부 API 호출
 	implementation 'com.squareup.okhttp3:okhttp:4.9.3'
 
-//	//이메일 연락처 등 중복확인
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// MySQL 드라이버 (최신 버전)
+	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 
-
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.1.0.RELEASE'
-
-
-	//타임리프 헤더 푸터 레이아웃 의존성 추가
-	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-
-	//이메일을 이용하여 새비밀번호 설정
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-
-
-//	예약시 달력 사용
+	// 웹자바스크립트
 	implementation 'org.webjars:jquery:3.5.1'
 	implementation 'org.webjars:jquery-ui:1.12.1'
 
+	// 서블릿 API
+	implementation 'javax.servlet:javax.servlet-api:4.0.1'
 
+	// JAXB (Java XML 바인딩)
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 
-//	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'mysql:mysql-connector-java:8.0.26'
-
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
-
 	testImplementation 'org.projectlombok:lombok'
+
+	// 테스트
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	implementation 'javax.servlet:javax.servlet-api:4.0.1' // 또는 최신 버전으로 조정
-
 }
 
 test {
@@ -94,4 +83,3 @@ jar {
 		)
 	}
 }
-
